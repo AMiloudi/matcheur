@@ -1,0 +1,5 @@
+<ul>
+  <% @matches.each do |match| %>
+<li> <%=match.user.name%> is matched with <%= match.match %> on day: <%=match.day%></li>
+<% end %>
+</ul>
