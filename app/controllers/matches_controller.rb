@@ -21,6 +21,9 @@ class MatchesController < ApplicationController
       new_user_session
     end
   end
+  def create
+    Matches.generate_matches
+  end
   private
   def get_student_matches(user)
     Match.where(studenta:user).or(Match.where(studentb:user))
