@@ -6,6 +6,8 @@ git_source(:github) do |repo_name|
 end
 
 
+gem 'jquery-rails', '~> 4.3.1'
+gem 'bootstrap-sass', '~> 3.3.6'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.1.4'
 # Use postgresql as the database for Active Record
