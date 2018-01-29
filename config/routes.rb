@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   devise_scope :user do
-    root to: "matches#index"
+    root to: "matches#show"
   end
 
   devise_for :users

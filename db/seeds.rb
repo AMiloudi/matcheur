@@ -19,4 +19,6 @@ Match.create!( [
   { day:Time.now.strftime("%Y-%m-%d") ,match:student6.name ,user:student5},
   { day:Time.now.strftime("%Y-%m-%d") ,match:student7.name ,user:student8},
   { day:Time.now.strftime("%Y-%m-%d") ,match:student9.name ,user:student10},
+  { day:(Time.now-86400).strftime("%Y-%m-%d") ,match:student7.name ,user:student3},
+
   ])
