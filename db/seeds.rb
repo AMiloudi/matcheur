@@ -1,3 +1,4 @@
+Match.destroy_all
 User.destroy_all
 
 admin1 = User.create(email:"test01@test.com",password:"test01",name:"henk",status:"admin")
@@ -14,11 +15,12 @@ student9 = User.create(email:"test11@test.com",password:"test11",name:"ans",stat
 student10 = User.create(email:"test12@test.com",password:"test12",name:"frans",status:"student")
 
 Match.create!( [
-  { day:Time.now.strftime("%Y-%m-%d") ,match:student2.name ,user:student1},
-  { day:Time.now.strftime("%Y-%m-%d") ,match:student4.name ,user:student3},
-  { day:Time.now.strftime("%Y-%m-%d") ,match:student6.name ,user:student5},
-  { day:Time.now.strftime("%Y-%m-%d") ,match:student7.name ,user:student8},
-  { day:Time.now.strftime("%Y-%m-%d") ,match:student9.name ,user:student10},
-  { day:(Time.now-86400).strftime("%Y-%m-%d") ,match:student7.name ,user:student3},
+  { day:Date.today ,studentb_id:student2.id ,studenta_id:student1.id},
+  { day:Date.today ,studentb_id:student4.id ,studenta_id:student3.id},
+  { day:Date.today ,studentb_id:student6.id ,studenta_id:student5.id},
+  { day:Date.today ,studentb_id:student7.id ,studenta_id:student8.id},
+  { day:Date.today ,studentb_id:student9.id ,studenta_id:student10.id},
+  { day:(Date.today-1) ,studentb_id:student7.id ,studenta_id:student3.id},
+  { day:(Date.today-2) ,studentb_id:student3.id ,studenta_id:student2.id},
 
   ])

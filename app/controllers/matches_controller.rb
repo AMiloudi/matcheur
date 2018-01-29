@@ -4,7 +4,7 @@ class MatchesController < ApplicationController
     if current_user.status == "admin"
       render :_indexadmin
     elsif current_user.status == "student"
-      @matches = current_user.matches.all
+      @matches = get_student_matches(current_user)
       render :_indexstudent
     else
       new_user_session
@@ -20,5 +20,9 @@ class MatchesController < ApplicationController
     else
       new_user_session
     end
+  end
+  private
+  def get_student_matches(user)
+    Match.where(studenta:user).or(Match.where(studentb:user))
   end
 end
