@@ -1,5 +1,7 @@
+
 <ul>
   <% @matches.each do |match| %>
 <li> <%=match.user.name%> is matched with <%= match.match %> on day: <%=match.day%></li>
 <% end %>
 </ul>
+<%= link_to "show todays match", root_path, class:"button" %>
