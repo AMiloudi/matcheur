@@ -10,18 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180129102225) do
+ActiveRecord::Schema.define(version: 20180129142501) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "matches", force: :cascade do |t|
     t.datetime "day"
-    t.string "match"
-    t.bigint "user_id"
+    t.bigint "studenta_id"
+    t.bigint "studentb_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["user_id"], name: "index_matches_on_user_id"
+    t.index ["studenta_id"], name: "index_matches_on_studenta_id"
+    t.index ["studentb_id"], name: "index_matches_on_studentb_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -43,5 +44,6 @@ ActiveRecord::Schema.define(version: 20180129102225) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  add_foreign_key "matches", "users"
+  add_foreign_key "matches", "users", column: "studenta_id"
+  add_foreign_key "matches", "users", column: "studentb_id"
 end
