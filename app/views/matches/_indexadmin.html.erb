@@ -1,0 +1,9 @@
+<h1>All existing Matches</h1>
+
+<ul>
+  <% @matches.each do |match| %>
+<li> <%=match.studenta.name%> is matched with <%= match.studentb.name %></li>
+<% end %>
+</ul>
+
+<%= button_to "Back to todays match",root_path %>

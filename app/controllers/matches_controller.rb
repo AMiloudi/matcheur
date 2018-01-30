@@ -3,6 +3,7 @@ class MatchesController < ApplicationController
 
   def index
     if current_user.status == "admin"
+      @matches = Match.all
       render :_indexadmin
     elsif current_user.status == "student"
       @matches = get_student_matches(current_user)
@@ -26,7 +27,7 @@ class MatchesController < ApplicationController
   end
 
   def create
-    Matches.generate_matches
+    # Match.generate_matches
   end
 
   private
