@@ -1,5 +1,6 @@
 class MatchesController < ApplicationController
   before_action :authenticate_user!
+
   def index
     if current_user.status == "admin"
       render :_indexadmin
@@ -10,6 +11,7 @@ class MatchesController < ApplicationController
       new_user_session
     end
   end
+  
   def show
     if current_user.status == "admin"
       @matches = Match.where(day:Date.today)
