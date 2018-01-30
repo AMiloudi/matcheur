@@ -1,6 +1,8 @@
 <h1>matches for <%= @matches.first.day %> </h1>
 <ul>
   <% @matches.each do |match| %>
-<li> <%=match.studenta.name%> is matched with <%= match.studentb.name %></li>
-<% end %>
+  <li> <%=match.studenta.name%> is matched with <%= match.studentb.name %></li>
+  <% end %>
 </ul>
+
+<%= button_to "See all matches",  matches_path %>
