@@ -3,15 +3,14 @@ class Match < ApplicationRecord
   belongs_to :studentb, :class_name => 'User'
 
   def self.generate_matches(day=Date.today)
-
     @day = day
+    Match.where(day:@day).destroy_all
     @students_array = []
     @students_array = self.get_students
     uneven  #checken if student array is even
     while @students_array != [] do
       picked_student = User.find(@students_array[rand(1...(@students_array.length))])
       first_student = User.find(@students_array.first)
-      p picked_student
       if self.duplicates(picked_student,first_student) == false  #checking wheter a match exists already
         Match.create(day:@day,studenta:picked_student,studentb:first_student)
         @students_array.delete(picked_student.id)
@@ -20,12 +19,10 @@ class Match < ApplicationRecord
     end
   end
 
-
   def self.duplicates(student1,student2)
-    #add 9 days validation
     matches = self.get_student_matches(student1)
     duplicate = self.check_past_matches(matches,student2)
-    duplicate = duplicate.join
+    duplicate = duplicate.join #removing arrays to see if they contain anything
     if duplicate == ""
       false
     else
@@ -33,7 +30,7 @@ class Match < ApplicationRecord
     end
   end
 
-  def self.check_past_matches(matches,student2)
+  def self.check_past_matches(matches,student2)  #checks the last days if the user had any matches
     i = 1
     dupe = []
     (self.get_students.length-1).times do

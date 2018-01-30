@@ -26,8 +26,16 @@ class MatchesController < ApplicationController
     end
   end
 
+  def new
+    if current_user.status == "admin"
+      @match = Match.new
+    else
+      render :root
+    end
+  end
   def create
-    # Match.generate_matches
+    Match.generate_matches(params[:match][:day].to_date)
+
   end
 
   private
@@ -35,4 +43,5 @@ class MatchesController < ApplicationController
   def get_student_matches(user)
     Match.where(studenta:user).or(Match.where(studentb:user))
   end
+
 end
