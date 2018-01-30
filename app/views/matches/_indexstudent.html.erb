@@ -1,7 +1,7 @@
 
 <ul>
   <% @matches.each do |match| %>
-<li> <%=match.studenta.name%> is matched with <%= match.studentb.name %> on day: <%=match.day%></li>
+<li> <%=match.studenta.name%> is matched with <%= match.studentb.name %> on day: <%=match.day.to_date%></li>
 <% end %>
 </ul>
 <%= link_to "show todays match", root_path, class:"button" %>
