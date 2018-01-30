@@ -8,10 +8,13 @@
 </ul>
 <hr>
 <h3>Matches for all days</h3>
-<ul>
-  <% @matches.each do |match| %>
+<% @days.each do |day| %>
+ <h4> <%= day.to_date %></h4>
+ <ul>
+
+  <% @matches.where(day:day).each do |match| %>
 <li> <%=match.studenta.name%> is matched with <%= match.studentb.name %></li>
 <% end %>
 </ul>
-
-<%= button_to "Back to todays match",root_path %>
+<% end %>
+<%= link_to "Back to todays match",root_path, class:"button buttonborder"%>

@@ -13,6 +13,8 @@ class MatchesController < ApplicationController
   def index
     if current_user.status == "admin"
       @matches = Match.all
+      @days = Match.select(:day).map(&:day).uniq
+      @days.delete(Date.today)
       @matches_today = Match.where(day:Date.today)
       render :_indexadmin
     elsif current_user.status == "student"
