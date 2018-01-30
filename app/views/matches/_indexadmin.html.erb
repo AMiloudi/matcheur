@@ -1,5 +1,13 @@
 <h1>All existing Matches</h1>
 
+<h3> Matches for today</h3>
+<ul>
+  <% @matches_today.each do |match| %>
+<li> <%=match.studenta.name%> is matched with <%= match.studentb.name %></li>
+<% end %>
+</ul>
+<hr>
+<h3>Matches for all days</h3>
 <ul>
   <% @matches.each do |match| %>
 <li> <%=match.studenta.name%> is matched with <%= match.studentb.name %></li>
