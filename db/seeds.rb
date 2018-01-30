@@ -22,5 +22,4 @@ Match.create!( [
   { day:Date.today ,studentb_id:student9.id ,studenta_id:student10.id},
   { day:(Date.today-1) ,studentb_id:student7.id ,studenta_id:student3.id},
   { day:(Date.today-2) ,studentb_id:student3.id ,studenta_id:student2.id},
-
   ])
