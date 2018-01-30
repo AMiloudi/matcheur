@@ -1,6 +1,8 @@
 class Match < ApplicationRecord
   belongs_to :studenta, :class_name => 'User'
   belongs_to :studentb, :class_name => 'User'
+
+
   def generate_matches(day=Date.today)
     @day = day
     @students_array = get_students
@@ -18,7 +20,7 @@ class Match < ApplicationRecord
   def duplicates(student1,student2)  #add 9 days validation
     matches = get_student_matches(student1)
     duplicate = matches.find_by(studenta:student2).or(matches.find_by(studentb:student2))
-    if duplicate
+    if duplicate.where(Day.today - (@student_array.length -1))
       true
     else
       false
@@ -38,6 +40,7 @@ class Match < ApplicationRecord
   def get_student_matches(user)
     Match.where(studenta:user).or(Match.where(studentb:user))
   end
+
   def get_students
     return User.where(status:"student").all.ids
   end
