@@ -9,7 +9,6 @@ function changeStatus(event) {
     url: " /users/"+button.id+".json",
     contentType: "application/json",
     dataType: "json",
-    // data: JSON.stringify({ id: button.id})
   })
   .done(function(data){
     console.log(data);
