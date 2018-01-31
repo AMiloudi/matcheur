@@ -5,7 +5,7 @@ Rails.application.routes.draw do
 
 
   devise_for :users
-  resources :users, except: [:update,:edit,:destroy]
+  resources :users, except: [:edit,:destroy]
   resources :matches, except: [:edit,:update,:destroy]
 
   namespace :api do
