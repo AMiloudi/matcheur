@@ -8,6 +8,8 @@ class UsersController < ApplicationController
     end
   end
 
+generate-js
+
   def show
 
   end
@@ -30,4 +32,5 @@ class UsersController < ApplicationController
   def get_user
     User.find(user_params)
   end
+master
 end

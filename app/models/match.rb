@@ -9,8 +9,8 @@ class Match < ApplicationRecord
     @students_array = self.get_students
     uneven  #checken if student array is even
     while @students_array != [] do
-      picked_student = User.find(@students_array[rand(1...(@students_array.length))])
-      first_student = User.find(@students_array.first)
+      picked_student  =   User.find(@students_array[rand(1...(@students_array.length))])
+      first_student   =   User.find(@students_array.first)
       if self.duplicates(picked_student,first_student) == false  #checking wheter a match exists already
         Match.create(day:@day,studenta:picked_student,studentb:first_student)
         @students_array.delete(picked_student.id)
