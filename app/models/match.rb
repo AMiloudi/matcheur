@@ -3,16 +3,17 @@ class Match < ApplicationRecord
   belongs_to :studentb, :class_name => 'User'
 
   def self.generate_matches(day=Date.today)
-    @day = day
-    Match.where(day:@day).destroy_all
-    @students_array = []
+
+    Match.where(day:day).destroy_all
     @students_array = self.get_students
     uneven  #checken if student array is even
-    while @students_array != [] do
-      picked_student  =   User.find(@students_array[rand(1...(@students_array.length))])
-      first_student   =   User.find(@students_array.first)
-      if self.duplicates(picked_student,first_student) == false  #checking wheter a match exists already
-        Match.create(day:@day,studenta:picked_student,studentb:first_student)
+
+    while @students_array.length > 0 do
+      picked_student  = User.find(  @students_array[rand(1...(@students_array.length))])
+      first_student   = User.find(  @students_array.first)
+
+      if self.duplicates( picked_student, first_student ) == false  #checking wheter a match exists already
+        Match.create(day:day,studenta:picked_student,studentb:first_student)
         @students_array.delete(picked_student.id)
         @students_array.delete(@students_array.first) #emptying array from used students
       end
@@ -55,7 +56,6 @@ class Match < ApplicationRecord
   end
 
   def self.get_students
-
     return User.where(status:"student").all.ids
   end
 end
