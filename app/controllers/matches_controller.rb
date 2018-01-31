@@ -19,7 +19,7 @@ class MatchesController < ApplicationController
       @matches_today = Match.where(day:Date.today)
       render :_indexadmin
     elsif current_user.status == "student"
-      @matches = get_student_matches(current_user)
+      @matches = get_student_matches(current_user).where("day < ?", Date.today)
       render :_indexstudent
     else
       new_user_session
