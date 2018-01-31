@@ -10,7 +10,7 @@
 <h3>Matches for all days</h3>
 <% @days.each do |day| %>
  <h4> <%= day.to_date %></h4>
- <ul>
+  <ul>
 
   <% @matches.where(day:day).each do |match| %>
 <li> <%=match.studenta.name%> is matched with <%= match.studentb.name %></li>

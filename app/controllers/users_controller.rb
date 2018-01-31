@@ -8,6 +8,7 @@ class UsersController < ApplicationController
     end
   end
 
+
   def update
     user = get_user
     if user.status == "admin"
@@ -25,4 +26,5 @@ class UsersController < ApplicationController
   def get_user
     User.find(params[:id])
   end
+master
 end
