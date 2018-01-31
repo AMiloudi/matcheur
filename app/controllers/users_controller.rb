@@ -18,7 +18,7 @@ class UsersController < ApplicationController
     else
       user.status = "admin"
     end
-    render status: 200  json:{status:user.status id:user.id, notice:"status changed"}
+    render status: 200,  json:{status:user.status, id:user.id, notice:"status changed"}
 
   end
 

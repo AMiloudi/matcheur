@@ -3,7 +3,7 @@ function changeStatus(event) {
   button = this;
   console.log(event);
   console.log(button);
-  
+
   $.ajax({
     type: "PATCH",
     url: " /users/"+button[0].id+".json",
@@ -13,7 +13,7 @@ function changeStatus(event) {
   })
   .done(function(data){
     console.log(data);
-
+    
   })
   .fail()
 };
