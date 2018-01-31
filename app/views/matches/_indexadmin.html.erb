@@ -1,9 +1,20 @@
 <h1>All existing Matches</h1>
 
+<h3> Matches for today</h3>
 <ul>
-  <% @matches.each do |match| %>
+  <% @matches_today.each do |match| %>
 <li> <%=match.studenta.name%> is matched with <%= match.studentb.name %></li>
 <% end %>
 </ul>
+<hr>
+<h3>Matches for all days</h3>
+<% @days.each do |day| %>
+ <h4> <%= day.to_date %></h4>
+  <ul>
 
-<%= button_to "Back to todays match",root_path %>
+  <% @matches.where(day:day).each do |match| %>
+<li> <%=match.studenta.name%> is matched with <%= match.studentb.name %></li>
+<% end %>
+</ul>
+<% end %>
+<%= link_to "Back to todays match",root_path, class:"button buttonborder"%>

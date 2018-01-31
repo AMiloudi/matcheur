@@ -7,6 +7,7 @@ class Match < ApplicationRecord
     Match.where(day:day).destroy_all
     @students_array = self.get_students
     uneven  #checken if student array is even
+
     while @students_array.length > 0 do
       picked_student  = User.find(  @students_array[rand(1...(@students_array.length))])
       first_student   = User.find(  @students_array.first)

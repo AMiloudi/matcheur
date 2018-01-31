@@ -17,7 +17,7 @@
         <td><%=user.name%></td>
         <td><%= user.status%></td>
         <td>
-          <button type="button" class="btn btn-default">Demote/Promote</button>
+          <button type="button" class="btn btn-default status-change" id=<%=user.id%> ><%=  user.status == "admin"? "Demote" : "Promote"%></button>
         </td>
       </tr>
       <% end %>
