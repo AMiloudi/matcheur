@@ -1,14 +1,14 @@
-matchclass Api::MatchesController < ApplicationController
- skip_before_action :verify_authenticity_token
+class Api::MatchesController < ApplicationController
+  skip_before_action :verify_authenticity_token
 
- def index
-   render status: 200, json: {
-     matches: Match.all
-   }.to_json
- end
+  def index
+    render status: 200, json: {
+      matches: Match.all
+    }.to_json
+  end
 
- def create
-      Match.generate_matches(params[:match][:day].to_date)
+  def create
+    Match.generate_matches(params[:match][:day].to_date)
 
     if match.save
       render status: 201, json: {
@@ -22,8 +22,6 @@ matchclass Api::MatchesController < ApplicationController
     end
   end
 
-
-
-  end
-
   private
+
+end
