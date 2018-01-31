@@ -26,5 +26,4 @@ class UsersController < ApplicationController
   def get_user
     User.find(params[:id])
   end
-master
 end
