@@ -22,9 +22,11 @@ class Api::MatchesController < ApplicationController
         errors: match.errors
       }.to_json
     else
+      students = User.where(status:"student")
       render status: 201, json: {
         message: "Matches succesfully created",
         matches: matches,
+        students: students,
       }.to_json
     end
   end

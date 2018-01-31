@@ -1,5 +1,5 @@
 <h2> Generate new matches for days</h2>
-
+<div class="formborder">
 <%= form_for @match do |m| %>
 <div class="field">
   <%= m.label :day %><br />
@@ -9,3 +9,8 @@
   <%= m.submit "push button", class: "btn btn-primary" %>
 </div>
 <%end%>
+</div>
+<div id="generated_list">
+<hr>
+
+</div>
