@@ -2,6 +2,8 @@ class Match < ApplicationRecord
   belongs_to :studenta, :class_name => 'User'
   belongs_to :studentb, :class_name => 'User'
 
+  validates :day, presence: true
+
   def self.generate_matches(day=Date.today)
     Match.where(day:day).destroy_all
     students_array = []

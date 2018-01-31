@@ -4,4 +4,6 @@ class User < ApplicationRecord
   # has_many :matches, primary_key: :studenta, dependent: :destroy
   # has_many :matches, primary_key: :studentb, dependent: :destroy
 
+  validates :name, presence: true
+  validates :status, presence: true
 end
