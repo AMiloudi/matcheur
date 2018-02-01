@@ -10,80 +10,107 @@ class Match < ApplicationRecord
     students_array = []
     students_array = self.get_students
     uneven(students_array)
-    students_array = self.get_students
-    selected_dates= (day-(students_array.count-1)..(day-1))
-    loop do
-      if students_array.count/2 == Match.where(day:day).count
-        puts Match.where(day:day).count.to_s + " buh bye"
-        break
-      else
-        break
-      end
-      student1 = User.find(students_array[rand(0..((students_array.count)-1))])
-      if self.has_match(student1,day)
-        next
-      end
+    students_array = self.get_students.shuffle
+    p students_array
+    selected_dates = (day-(students_array.count-1)..(day-1))
+    remember_chosen_ones = []
+    students_array.each_with_index do |student,index|
+      next if remember_chosen_ones.include? index
+      remember_chosen_ones.push(index)
+      students_array.each_with_index do |other_student,other_index|
+        next if remember_chosen_ones.include? other_index
+        p student
+        p other_student
+        p day.to_s
+        lookup_a_to_b = Match.where(studenta_id:student,day:day).or(Match.where(studentb_id:other_student,day:selected_dates)).ids
+        lookup_b_to_a = Match.where(studenta_id:other_student,day:day).or(Match.where(studentb_id:student,day:selected_dates)).ids
+        lookup_a_to_b.join
+        lookup_b_to_a.join
 
-      unique_students = []
-      loop do
-        if (unique_students.uniq).count == students_array.count-1
-          generate_matches(day)
+        next if lookup_a_to_b =="" && lookup_b_to_a == ""
+        remember_chosen_ones.push(other_index)
+        Match.create(day:day,studenta_id:student,studentb_id:other_student)
+        break
+
+      end
+    end
+  end
+    # unique_students = []
+    #
+    # loop doif
+    #   if students_array.count/2 == Match.where(day:day).count
+    #     puts Match.where(day:day).count.to_s + " buh bye"
+    #     puts students_array.count/2
+    #     p unique_students.uniq
+    #     break
+    #   else
+    #     puts "not done yet " + Match.where(day:day).count.to_s
+    #     puts students_array.count/2
+    #   end
+    #   student1 = User.find(students_array[rand(0..((students_array.count)-1))])
+    #   if self.has_match(student1,day)
+    #     next
+    #   end
+    #   unique_students = []
+    #   loop do
+    #     if (unique_students.uniq).count >= students_array.count
+    #       generate_matches(day)
+    #     end
+    #     student2= User.find(students_array[rand(0..((students_array.count)-1))])
+    #     unique_students << student2.id
+    #     p unique_students.uniq.to_s + "tested students"
+    #     case
+    #     when student1 == student2
+    #       next
+    #     when self.has_match(student2,day)
+    #       next
+    #     when self.duplicates(student1, student2, selected_dates)
+    #       next
+    #     else
+    #       Match.create(day:day,studenta:student2,studentb:student1)
+    #       puts Match.where(day:day).count.to_s + " down!"
+    #       break
+    #     end
+    #     break
+    #   end
+    # end
+    # end
+    #
+    # def self.has_match(student,day)
+    #   if Match.where(studenta_id:student,day:day).or(Match.where(studentb_id:student,day:day)).ids != []
+    #     p Match.where(studenta_id:student,day:day).or(Match.where(studentb_id:student,day:day)).ids
+    #     true
+    #   else
+    #     false
+    #   end
+    # end
+
+    def self.duplicates(student,other_student, selected_dates)
+      found_matches = []
+      found_matches << Match.where(studenta_id:student, studentb_id:other_student, day: selected_dates).ids
+      if found_matches == [[]]
+        p found_matches
+        found_matches << Match.where(studenta_id:other_student, studentb_id:student, day: selected_dates).ids
+        if found_matches == [[], []]
+          p found_matches
+          return false
         end
-        student2= User.find(students_array[rand(0..((students_array.count)-1))])
-        unique_students << student2.id
-        case
-        when student1 == student2
-          next
-        when self.has_match(student2,day)
-          next
-        when self.duplicates(student1, student2, selected_dates)
-          next
-        else
-          Match.create(day:day,studenta:student2,studentb:student1)
-          puts Match.where(day:day).count.to_s + " hello"
-        end
-        break
+      end
+      return true
+    end
+
+    def self.uneven(students_array)
+      dummy = User.find_by(name:"dummy")
+      if students_array.length%2 == 1 && dummy
+        Match.where(studenta_id:dummy).or(Match.where(studentb_id:dummy)).destroy_all
+        dummy.destroy
+
+      elsif students_array.length%2 == 1
+        User.create(name:"dummy",password:"dummy1",email:"dummy@test.com",status:"student")
       end
     end
-  end
 
-  def self.has_match(student,day)
-    if Match.where(studenta_id:student,day:day).or(Match.where(studentb_id:student,day:day)).ids != []
-      p Match.where(studenta_id:student,day:day).or(Match.where(studentb_id:student,day:day)).ids
-      true
-    else
-      false
+    def self.get_students
+      return User.where(status:"student").all.ids
     end
   end
-
-  def self.duplicates(student1,student2, selected_dates)
-    found_matches = []
-    found_matches << Match.where(studenta_id:student1.id, studentb_id:student2.id, day: selected_dates).ids
-    if found_matches == [[]]
-      found_matches << Match.where(studenta_id:student2.id, studentb_id:student1.id, day: selected_dates).ids
-      if found_matches == [[], []]
-        return false
-      end
-    end
-    return true
-  end
-
-  def self.uneven(students_array)
-    dummy = User.find_by(name:"dummy")
-    if students_array.length%2 == 1 && dummy
-      Match.where(studenta_id:dummy).or(Match.where(studentb_id:dummy)).destroy_all
-      dummy.destroy
-
-    elsif students_array.length%2 == 1
-      User.create(name:"dummy",password:"dummy1",email:"dummy@test.com",status:"student")
-    end
-  end
-
-  def self.get_student_matches(user)
-    Match.where(studenta:user).or(Match.where(studentb:user))
-  end
-
-  def self.get_students
-    return User.where(status:"student").all.ids
-  end
-end
