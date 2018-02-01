@@ -6,40 +6,66 @@ class Match < ApplicationRecord
 
   def self.generate_matches(day=Date.today)
     Match.where(day:day).destroy_all
+
     students_array = []
     students_array = self.get_students
-    uneven(students_array)  #checken if student array is even
-    while students_array.length > 0 do
-      picked_student = User.find(students_array[rand(1...(students_array.length))])
-      first_student = User.find(students_array.first)
-      if self.duplicates(picked_student,first_student) == false  #checking wheter a match exists already
-        Match.create(day:day,studenta:picked_student,studentb:first_student)
-        students_array.delete(picked_student.id)
-        students_array.delete(students_array.first) #emptying array from used students
+    uneven(students_array)
+    students_array = self.get_students
+    selected_dates= (day-(students_array.count-1)..(day-1))
+    loop do
+      if students_array.count/2 == Match.where(day:day).count
+        puts Match.where(day:day).count.to_s + " buh bye"
+        break
+      else
+        break
+      end
+      student1 = User.find(students_array[rand(0..((students_array.count)-1))])
+      if self.has_match(student1,day)
+        next
+      end
 
+      unique_students = []
+      loop do
+        if (unique_students.uniq).count == students_array.count-1
+          generate_matches(day)
+        end
+        student2= User.find(students_array[rand(0..((students_array.count)-1))])
+        unique_students << student2.id
+        case
+        when student1 == student2
+          next
+        when self.has_match(student2,day)
+          next
+        when self.duplicates(student1, student2, selected_dates)
+          next
+        else
+          Match.create(day:day,studenta:student2,studentb:student1)
+          puts Match.where(day:day).count.to_s + " hello"
+        end
+        break
       end
     end
   end
 
-  def self.duplicates(student1,student2)
-    matches = self.get_student_matches(student1)
-    duplicate = self.check_past_matches(matches,student2)
-    duplicate = duplicate.join #removing arrays to see if they contain anything
-    if duplicate == ""
-      false
-    else
+  def self.has_match(student,day)
+    if Match.where(studenta_id:student,day:day).or(Match.where(studentb_id:student,day:day)).ids != []
+      p Match.where(studenta_id:student,day:day).or(Match.where(studentb_id:student,day:day)).ids
       true
+    else
+      false
     end
   end
 
-  def self.check_past_matches(matches,student2)  #checks the last days if the user had any matches
-    i = 1
-    dupe = []
-    (self.get_students.length-1).times do
-      dupe.push(matches.where(studentb:student2,day:(Date.today-i)).or(matches.where(studenta:student2,day:(Date.today-i))).ids)
-      i += 1
+  def self.duplicates(student1,student2, selected_dates)
+    found_matches = []
+    found_matches << Match.where(studenta_id:student1.id, studentb_id:student2.id, day: selected_dates).ids
+    if found_matches == [[]]
+      found_matches << Match.where(studenta_id:student2.id, studentb_id:student1.id, day: selected_dates).ids
+      if found_matches == [[], []]
+        return false
+      end
     end
-    return dupe
+    return true
   end
 
   def self.uneven(students_array)
@@ -47,10 +73,9 @@ class Match < ApplicationRecord
     if students_array.length%2 == 1 && dummy
       Match.where(studenta_id:dummy).or(Match.where(studentb_id:dummy)).destroy_all
       dummy.destroy
-      generate_matches
+
     elsif students_array.length%2 == 1
       User.create(name:"dummy",password:"dummy1",email:"dummy@test.com",status:"student")
-      generate_matches
     end
   end
 
