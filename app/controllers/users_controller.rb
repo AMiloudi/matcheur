@@ -7,20 +7,6 @@ class UsersController < ApplicationController
       redirect_to :root
     end
   end
-
-
-  def update
-    user = get_user
-    if user.status == "admin"
-      user.status = "student"
-    else
-      user.status = "admin"
-    end
-    user.save
-
-    render status: 200,  json:{status:user.status, id:user.id, notice:"status changed"}
-  end
-
   private
 
   def get_user
