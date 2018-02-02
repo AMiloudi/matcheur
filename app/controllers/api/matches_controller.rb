@@ -10,12 +10,6 @@ class Api::MatchesController < ApplicationController
   def create
     Match.generate_matches(params[:day].to_date)
     matches = Match.where(day:params[:day])
-
-    matches.each do |match|
-      user1 = User.where(id: match.studenta_id)
-      user2 = User.where(id: match.studentb_id)
-    end
-
     if matches.empty?
       render status: 422, json: {
         message: "Matches could not be created",
