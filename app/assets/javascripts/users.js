@@ -6,7 +6,7 @@ function changeStatus(event) {
 
   $.ajax({
     type: "PATCH",
-    url: " /users/"+button.id+".json",
+    url: " /api/users/"+button.id+".json",
     contentType: "application/json",
     dataType: "json",
   })
