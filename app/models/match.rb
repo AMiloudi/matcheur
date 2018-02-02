@@ -12,7 +12,7 @@ class Match < ApplicationRecord
     uneven(students_array)
     students_array = self.get_students.shuffle
     selected_dates = (day-(students_array.count-2)..(day-1))
-
+    
     remember_chosen_ones = []
 
     students_array.each_with_index do |student,index|
@@ -37,10 +37,8 @@ class Match < ApplicationRecord
     found_matches = []
     found_matches << Match.where(studenta_id:student, studentb_id:other_student, day: selected_dates).ids
     if found_matches == [[]]
-      p found_matches
       found_matches << Match.where(studenta_id:other_student, studentb_id:student, day: selected_dates).ids
       if found_matches == [[], []]
-        p found_matches
         return true
       end
     end
