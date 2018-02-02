@@ -16,27 +16,28 @@ class Match < ApplicationRecord
     selected_dates = (day-(students_array.count-1)..(day))
     remember_chosen_ones = []
     students_array.each_with_index do |student,index|
+      p Match.where(day:day).count
+      p students_array
       break if students_array.count/2 == Match.where(day:day).count
       next if remember_chosen_ones.include? index
-      p student.to_s + remember_chosen_ones.to_s
       remember_chosen_ones.push(index)
+      p student.to_s + remember_chosen_ones.to_s
       students_array.each_with_index do |other_student,other_index|
+        p student.to_s+other_student.to_s
         next if remember_chosen_ones.include? other_index
-        p student
-        p other_student
-        p remember_chosen_ones
         # lookup_a_to_b = Match.where(studenta_id:student,day:selected_dates).or(Match.where(studentb_id:other_student,day:selected_dates)).ids
         # lookup_b_to_a = Match.where(studenta_id:other_student,day:selected_dates).or(Match.where(studentb_id:student,day:selected_dates)).ids
         # lookup_a_to_b = lookup_a_to_b.join
         # lookup_b_to_a = lookup_b_to_a.join
         # p lookup_a_to_b +"a and b "+ lookup_b_to_a
-        if duplicates(student,other_student,selected_dates)
+        if self.duplicates(student,other_student,selected_dates)
           remember_chosen_ones.push(other_index)
           Match.create(day:day,studenta_id:student,studentb_id:other_student)
           p Match.where(day:day).count
+          p remember_chosen_ones
           break
         end
-        if other_index == (students_array.count)-1
+        if other_index == (students_array.count)-1 || (students_array.count)-1 == remember_chosen_ones.count
           p other_index
           p "failed to find match, matches found:"+ Match.where(day:day).count.to_s
           self.generate_matches(day)
