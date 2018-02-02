@@ -14,9 +14,6 @@ class Match < ApplicationRecord
     selected_dates= (day-(students_array.count-1)..(day-1))
     loop do
       if students_array.count/2 == Match.where(day:day).count
-        puts Match.where(day:day).count.to_s + " buh bye"
-        break
-      else
         break
       end
       student1 = User.find(students_array[rand(0..((students_array.count)-1))])
@@ -26,7 +23,7 @@ class Match < ApplicationRecord
 
       unique_students = []
       loop do
-        if (unique_students.uniq).count == students_array.count-1
+        if (unique_students.uniq).count == students_array.count
           generate_matches(day)
         end
         student2= User.find(students_array[rand(0..((students_array.count)-1))])
@@ -70,17 +67,13 @@ class Match < ApplicationRecord
 
   def self.uneven(students_array)
     dummy = User.find_by(name:"dummy")
+
     if students_array.length%2 == 1 && dummy
       Match.where(studenta_id:dummy).or(Match.where(studentb_id:dummy)).destroy_all
       dummy.destroy
-
     elsif students_array.length%2 == 1
       User.create(name:"dummy",password:"dummy1",email:"dummy@test.com",status:"student")
     end
-  end
-
-  def self.get_student_matches(user)
-    Match.where(studenta:user).or(Match.where(studentb:user))
   end
 
   def self.get_students
