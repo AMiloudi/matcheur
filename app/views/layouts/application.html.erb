@@ -1,25 +1,29 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Matcheur</title>
-    <%= csrf_meta_tags %>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<head>
+  <title>Matcheur</title>
+  <%= csrf_meta_tags %>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 
-    <%= stylesheet_link_tag    'application', media: 'all' %>
-    <%= javascript_include_tag 'application' %>
-  </head>
+  <%= stylesheet_link_tag    'application', media: 'all' %>
+  <%= javascript_include_tag 'application' %>
+</head>
 
-  <body >
+<body >
+  <%= render "shared/navbar" %>
+  <div class="background_fade">
+    <p class="notice"><%= notice %></p>
+    <p class="alert"><%= alert %></p>
 
-
-      <%= render "shared/navbar" %>
-    <div class="background_fade">
-      <p class="notice"><%= notice %></p>
-      <p class="alert"><%= alert %></p>
-
-      <div class="container space">
-        <%= yield %>
-      </div>
+    <div class="container space">
+      <%= yield %>
     </div>
-  </body>
+
+    <footer class="footer">
+      <div class="container">
+        <span class="text-muted">Matcheur by Robert and Anissa</span>
+      </div>
+    </footer>
+  </div>
+</body>
 </html>

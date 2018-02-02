@@ -1,5 +1,34 @@
 @import "bootstrap-sprockets";
 @import "bootstrap";
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+body {
+  margin-bottom: 60px;
+}
+
+ul {
+  list-style-type: none;
+}
+
+.container{
+  text-align: center;
+}
+.navbar{
+  background-color:#20B2AA;
+}
+
+.navbar-default .navbar-brand{
+  color: #000000;
+  font-weight: 400;
+}
+
+.navbar-default .navbar-nav > li > a{
+  color: #000000;
+  font-weight: 300;
+}
 .buttonborder{
   border: 1px solid black;
   border-radius: 3px;
@@ -15,19 +44,25 @@
 .background_fade{
   background: linear-gradient(to right, darkgrey , white 10%,white 90%, darkgrey);
   position: float;
-  margin-top: -10px;
+  margin-top: 0px;
   height: 100%;
 }
-.background_fade_right{
-  background: linear-gradient(to left, darkblue, white);
-  position: float;
-  right: 0px;
-  width:10%;
 
-}
 .space{
   left: 10%;
 }
 .no_margin{
   margin: 0px,
+}
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 60px; /* Set the fixed height of the footer here */
+  line-height: 60px; /* Vertically center the text there */
+  background-color: #A9A9A9;
+}
+
+.text-muted{
+  color: #000000;
 }
