@@ -8,8 +8,8 @@ class UsersController < ApplicationController
     end
   end
   private
-
   def get_user
     User.find(params[:id])
   end
+
 end
