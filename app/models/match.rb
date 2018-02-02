@@ -12,9 +12,10 @@ class Match < ApplicationRecord
     uneven(students_array)
     students_array = self.get_students.shuffle
     p students_array
-    selected_dates = (day-(students_array.count-1)..(day-1))
+    selected_dates = (day-(students_array.count-1)..(day))
     remember_chosen_ones = []
     students_array.each_with_index do |student,index|
+      break if students_array.count/2 == Match.where(day:day).count
       next if remember_chosen_ones.include? index
       p student.to_s + remember_chosen_ones.to_s
       remember_chosen_ones.push(index)
@@ -85,6 +86,7 @@ class Match < ApplicationRecord
     #
     # def self.has_match(student,day)
     #   if Match.where(studenta_id:student,day:day).or(Match.where(studentb_id:student,day:day)).ids != []
+        # lookup_a_to_b = lookup_a_to_b.join
     #     p Match.where(studenta_id:student,day:day).or(Match.where(studentb_id:student,day:day)).ids
     #     true
     #   else
@@ -94,6 +96,7 @@ class Match < ApplicationRecord
 
     def self.duplicates(student,other_student, selected_dates)
       found_matches = []
+        # lookup_a_to_b = lookup_a_to_b.join
       found_matches << Match.where(studenta_id:student, studentb_id:other_student, day: selected_dates).ids
       if found_matches == [[]]
         p found_matches
