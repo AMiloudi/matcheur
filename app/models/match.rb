@@ -13,7 +13,7 @@ class Match < ApplicationRecord
     students_array = self.get_students.shuffle
 
     selected_dates = (day-(students_array.count-2)..(day-1))
-   
+
     remember_chosen_ones = []
 
     students_array.each_with_index do |student,index|
