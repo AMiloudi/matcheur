@@ -10,6 +10,7 @@ class Match < ApplicationRecord
     students_array = []
     students_array = self.get_students
     uneven(students_array)
+
     students_array = self.get_students.shuffle
     p students_array
     selected_dates = (day-(students_array.count-1)..(day-1))
@@ -106,6 +107,7 @@ class Match < ApplicationRecord
       return false
     end
 
+
     def self.uneven(students_array)
       dummy = User.find_by(name:"dummy")
       if students_array.length%2 == 1 && dummy
@@ -115,7 +117,10 @@ class Match < ApplicationRecord
       elsif students_array.length%2 == 1
         User.create(name:"dummy",password:"dummy1",email:"dummy@test.com",status:"student")
       end
+
     end
+
+
 
     def self.get_students
       return User.where(status:"student").all.ids
