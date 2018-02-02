@@ -96,6 +96,13 @@ RSpec.describe Match, type: :model do
       matches = Match.all
       expect(matches.count).to equal(6)
     end
-
+    it "generates 4 days" do
+      Match.generate_matches(Date.today)
+      Match.generate_matches((Date.today)+1)
+      Match.generate_matches((Date.today)+2)
+      Match.generate_matches((Date.today)+3)
+      matches = Match.all
+      expect(matches.count).to equal(8)
+    end
   end
 end
